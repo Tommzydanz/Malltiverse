@@ -34,3 +34,8 @@ yarn-error.*
 env.d.ts
 # typescript
 *.tsbuildinfo
+
+# folders for later
+/utils
+/product-details
+/api
