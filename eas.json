@@ -1,0 +1,34 @@
+{
+  "cli": {
+    "version": ">= 10.1.1"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "API_URL": "https://api.timbu.cloud",
+        "API_KEY": "API_KEY",
+        "APP_ID": "APP_ID",
+        "ORG_ID": "ORG_ID"
+      }
+    },
+    "preview": {
+    "distribution": "internal",
+    "channel": "development",
+    "android": {
+      "buildType": "apk"
+    },
+    "env": {
+        "API_URL": "API_URL",
+        "API_KEY": "API_KEY",
+        "APP_ID": "APP_ID",
+        "ORG_ID": "ORG_ID"
+      }
+  },
+    "production": {}
+  },
+  "submit": {
+    "production": {}
+  }
+}
