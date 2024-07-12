@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ProductsRetail",
-    "slug": "ProductsRetail",
+    "name": "Malltiverse",
+    "slug": "Malltiverse",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,14 +19,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.tommzydanz.ProductsRetail"
+      "package": "com.tommzydanz.Malltiverse"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "036ed3cb-e83a-4ebe-a8b9-d3b9c4d70f7a"
+        "projectId": "cadb9597-35d7-46e0-b76e-e13c64d2b00b"
       }
     }
   }
