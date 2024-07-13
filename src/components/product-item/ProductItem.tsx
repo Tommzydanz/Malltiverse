@@ -1,57 +1,96 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+} from "react-native";
 import { ProductItemProps } from "./interface";
-import { useNavigation } from "@react-navigation/native";
+import colors from "../../configs/colors.config";
+import { StarRating } from "../star-rating/StarRating";
 
-const ProductItem: ProductItemProps = ({ product }) => {
+const { width } = Dimensions.get("window");
+const cardWidth = width / 2 - 24;
 
-  const navigation = useNavigation<any>();
-
-  const handlePress = () => {
-    navigation.navigate('ProductDetails', { product: product });
-  }
-
+const ProductItem: ProductItemProps = ({ product, onAddToCart }) => {
   return (
-    <TouchableOpacity style={styles.container} onPress={handlePress}>
-      <Image style={styles.image} source={{uri: `https://api.timbu.cloud/images/${product.photos[0].url}`}} resizeMode="contain" /> 
-      <Text style={styles.name} numberOfLines={2}>
+    <View style={styles.container}>
+      <View style={[styles.imageWrapper, { backgroundColor: colors.gray500 }]}>
+        <Image
+          style={styles.image}
+          source={{
+            uri: `https://api.timbu.cloud/images/${product.photos[0].url}`,
+          }}
+          resizeMode="contain"
+        />
+      </View>
+      <Text style={styles.name} numberOfLines={1}>
         {product.name}
       </Text>
-      <Text style={styles.price}>
-        ₦ {product.current_price[0].NGN[0].toLocaleString("en-US")}
+      <Text style={styles.desc} numberOfLines={1}>
+        {product.description}
       </Text>
-    </TouchableOpacity>
+      <StarRating rating={product.rating} size={16} />
+      <Text style={styles.price}>
+        N {product.current_price[0].NGN[0].toLocaleString("en-US") || null}
+      </Text>
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => onAddToCart(product)}
+      >
+        <Text style={styles.addButtonText}>Add to Cart</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
     marginBottom: 8,
     borderRadius: 8,
-    marginRight: 12,
-    width: "48%",
+    marginRight: 20,
+    width: cardWidth,
+    minHeight: 347,
   },
-  image: { borderRadius: 8, height: 200, width: "100%" },
+  imageWrapper: {
+    width: "100%",
+    minHeight: 184,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  image: { borderRadius: 8, width: "70%", aspectRatio: 1 },
   name: {
-    fontSize: 13,
-    fontWeight: "light",
+    marginTop: 16,
+    fontSize: 12,
+    fontFamily: "Montserrat_600SemiBold",
+  },
+  desc: {
+    marginTop: 8,
+    fontSize: 12,
+    fontFamily: "Montserrat_400Regular",
   },
   price: {
     marginTop: 8,
-    fontSize: 16,
+    fontSize: 13,
+    color: colors.primary,
+    fontFamily: "Montserrat_500Medium",
   },
   addButton: {
-    backgroundColor: "orange",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    marginTop: 40,
-    borderRadius: 4,
-    alignItems: "center",
+    borderColor: colors.primary,
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 11,
+    borderRadius: 14,
+    marginTop: 17,
+    alignSelf: "flex-start",
   },
   addButtonText: {
-    color: "white",
-    fontWeight: "bold",
+    color: colors.secondary,
+    fontSize: 13,
+    fontFamily: "Montserrat_500Medium",
   },
 });
 
