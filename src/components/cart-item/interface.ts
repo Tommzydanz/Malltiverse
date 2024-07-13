@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Product } from "../../api/products";
 
 export type CartItemProps = React.FC<{
   cart: ICartItem;
