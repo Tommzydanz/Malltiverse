@@ -1,6 +1,5 @@
-import { Product } from "../api/products";
-
-export type RootStackParamList = {
-    Products: undefined,
-    ProductDetails: { product: Product };
-  };
+export type RootTabParamList = {
+  Products: undefined;
+  Cart: undefined;
+  Checkout: undefined;
+};
