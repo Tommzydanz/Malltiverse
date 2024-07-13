@@ -7,7 +7,9 @@ import {
   Montserrat_500Medium,
   Montserrat_600SemiBold,
 } from "@expo-google-fonts/montserrat";
+import { StatusBar } from "expo-status-bar";
 import AppNavigationContainer from "./src/navigation/AppNavigationContainer";
+import colors from "./src/configs/colors.config";
 
 export default function App() {
   SplashScreen.preventAutoHideAsync();
@@ -29,6 +31,7 @@ export default function App() {
   }
   return (
     <SafeAreaProvider>
+      <StatusBar backgroundColor={colors.whiteFade} />
       <AppNavigationContainer />
     </SafeAreaProvider>
   );
