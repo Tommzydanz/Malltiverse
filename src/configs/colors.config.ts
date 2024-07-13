@@ -1,0 +1,27 @@
+const colors = {
+  primary: "#FF7F7D",
+  secondary: "#2A2A2A",
+  secondary70: "#2A2A2AAA",
+  secondaryFade: "#2A2A2A80",
+  white: "#ffffff",
+  whiteFade: "#FAFAFA",
+  black: "#000000",
+  orange: "#FFC657",
+  gray500: "#EDEDEDAB",
+  gray600: "#757575",
+  gray700: "#616161",
+  gray800: "#424242",
+  gray900: "#212121",
+  text: "#333333",
+  placeholder: "#828282",
+  transparent: "rgba(0,0,0,0)",
+  screen: "#FFFFFF",
+  screenGray: "#F2F2F2",
+  danger: "#EB5757",
+  success: "#27AE60",
+  checked: "#4630EB",
+  info: "#2D9CDB",
+  rippleColor: "#9e9e9e",
+};
+
+export default colors;
