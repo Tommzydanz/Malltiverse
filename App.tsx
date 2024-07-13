@@ -1,20 +1,18 @@
-
-import { useEffect } from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import * as SplashScreen from 'expo-splash-screen';
+import { useEffect } from "react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import * as SplashScreen from "expo-splash-screen";
 import {
   useFonts,
   Montserrat_400Regular,
   Montserrat_500Medium,
   Montserrat_600SemiBold,
-} from '@expo-google-fonts/montserrat';
-import AppNavigationContainer from './src/navigation/AppNavigationContainer';
-
+} from "@expo-google-fonts/montserrat";
+import AppNavigationContainer from "./src/navigation/AppNavigationContainer";
 
 export default function App() {
   SplashScreen.preventAutoHideAsync();
 
-  const [fontsLoaded] = useFonts({  
+  const [fontsLoaded] = useFonts({
     Montserrat_400Regular,
     Montserrat_500Medium,
     Montserrat_600SemiBold,
@@ -31,7 +29,7 @@ export default function App() {
   }
   return (
     <SafeAreaProvider>
-    <AppNavigationContainer />
+      <AppNavigationContainer />
     </SafeAreaProvider>
-  )
+  );
 }
