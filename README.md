@@ -1,8 +1,10 @@
-# Multiverse App
+# Malltiverse App
 
 Products Retail app uses Timbu.cloud api to fetch products and show relevant information of the products added.
 
   <img src="assets/screenshots/products.png" alt="App Screenshot - Product" width="360"/>
+  <img src="assets/screenshots/details.png" alt="App Screenshot - Details" width="360"/>
+  <img src="assets/screenshots/details.png" alt="App Screenshot - Details" width="360"/>
   <img src="assets/screenshots/details.png" alt="App Screenshot - Details" width="360"/>
 
 ## Features
@@ -12,9 +14,9 @@ Products Retail app uses Timbu.cloud api to fetch products and show relevant inf
 
 ## Demo
 
-- Try out the app on Appetize.io: [Multiverse Demo](https://appetize.io)
+- Try out the app on Appetize.io: [Multiverse Demo]([https://appetize.io](https://appetize.io/app/b_shlbqjo26ofmobtkck7usazvxm))
 
-- Download apk build: [ProductsRetailApk](https://expo.dev/accounts/tommzydanz/projects/) link expires in 13days
+- Download apk build: [ProductsRetailApk](https://expo.dev/accounts/tommzydanz/projects/Malltiverse/builds/444a513e-6752-4c1b-85fc-14fb89de1a48) link expires in 13days
 
 ## Getting Started
 
