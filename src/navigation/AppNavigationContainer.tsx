@@ -123,6 +123,7 @@ const AppNavigationContainer: React.FC = function AppNavigationContainer() {
           options={{
             headerTitle: "My Cart",
             tabBarIcon: ({ color }) => <CartIcon color={color} />,
+            tabBarBadge: cartItemsCount > 0 ? cartItemsCount : undefined,
           }}
         >
           {(props) => (
