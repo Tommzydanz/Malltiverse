@@ -26,13 +26,16 @@ export const app_theme_color_storage = "@mainapp.theme.local.storage";
 
 // live url as default
 export const baseUrl =
-  process.env.API_URL ?? API_URL ?? "https://api-dev.shakohub.com/v1";
+  process.env.EXPO_PUBLIC_API_URL ??
+  API_URL ??
+  "https://api-dev.shakohub.com/v1";
 
-export const appId = process.env.APP_ID ?? "appId";
+export const appId = process.env.EXPO_PUBLIC_APP_ID ?? "appId";
 
-export const apiKey = process.env.API_KEY ?? "Apikey";
+export const apiKey = process.env.EXPO_PUBLIC_API_KEY ?? "Apikey";
 
-export const organizationId = process.env.ORG_ID ?? "organization_id";
+export const organizationId =
+  process.env.EXPO_PUBLIC_ORG_ID ?? "organization_id";
 
 export const BACKGROUND_NOTIFICATION_TASK = "BACKGROUND-NOTIFICATION-TASK";
 
