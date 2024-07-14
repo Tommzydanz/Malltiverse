@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -9,15 +9,18 @@ import {
 } from "react-native";
 import ProductItem from "../product-item/ProductItem";
 import colors from "../../configs/colors.config";
-import { PageIndicator } from "react-native-page-indicator";
 import { ProductCategoryProps } from "./interface";
 import { Product } from "../../api/products";
+import PageIndicator from "../page-indicator/PageIndicator";
 
 const screenWidth = Dimensions.get("window").width;
-const itemWidth = (screenWidth - 30) / 2; // Assuming 10px gap and 10px padding on each side
-
+const itemMargin = 7;
+const itemsPerPage = 2;
+const itemWidth =
+  (screenWidth - itemMargin * (itemsPerPage + 1)) / itemsPerPage;
 const ProductCategory: ProductCategoryProps = ({ products, addToCart }) => {
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPages, setCurrentPages] = useState<Record<string, number>>({});
+  const flatListRefs = useRef<Record<string, FlatList | null>>({});
 
   const categorizedProducts: [string, Product[]][] = useMemo(() => {
     if (!products || products.length === 0) return [];
@@ -47,10 +50,26 @@ const ProductCategory: ProductCategoryProps = ({ products, addToCart }) => {
     );
   }
 
-  const handleScroll = (event: any, _categoryProducts: Product[]) => {
+  const handleScroll = (
+    event: any,
+    category: string,
+    categoryProducts: Product[],
+  ) => {
     const offsetX = event.nativeEvent.contentOffset.x;
     const page = Math.round(offsetX / screenWidth);
-    setCurrentPage(page);
+    setCurrentPages((prevPages) => ({
+      ...prevPages,
+      [category]: page,
+    }));
+    // Prevent extra dragging at the last page
+    const totalItems = categoryProducts.length;
+    const maxOffset = (Math.ceil(totalItems / itemsPerPage) - 1) * screenWidth;
+    if (offsetX > maxOffset) {
+      flatListRefs.current[category]?.scrollToOffset({
+        offset: maxOffset,
+        animated: true,
+      });
+    }
   };
 
   const renderCategory = ([category, categoryProducts]: [
@@ -68,32 +87,33 @@ const ProductCategory: ProductCategoryProps = ({ products, addToCart }) => {
           .join(" ")}
       </Text>
       <FlatList
+        ref={(ref) => (flatListRefs.current[category] = ref)}
         data={categoryProducts}
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
-        onScroll={(event) => handleScroll(event, categoryProducts)}
+        onScroll={(event) => handleScroll(event, category, categoryProducts)}
         renderItem={({ item, index }) => (
           <View style={styles.productWrapper}>
             <ProductItem product={item} onAddToCart={addToCart} />
-            {index % 2 !== 0 && index !== categoryProducts.length - 1 && (
-              <View style={styles.spacer} />
-            )}
           </View>
         )}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.productRow}
         snapToInterval={screenWidth}
         decelerationRate="fast"
+        getItemLayout={(data, index) => ({
+          length: screenWidth,
+          offset: screenWidth * index,
+          index,
+        })}
       />
       <PageIndicator
         count={Math.ceil(categoryProducts.length / 2)}
-        current={currentPage}
+        current={currentPages[category] || 0}
         size={12}
-        variant={"beads"}
         style={styles.pageIndicator}
         activeColor={colors.primary}
-        scale={1}
+        inactiveColor={colors.gray400}
       />
     </View>
   );
@@ -122,9 +142,6 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat_600SemiBold",
     marginVertical: 10,
     paddingHorizontal: 10,
-  },
-  productRow: {
-    paddingHorizontal: 1,
   },
   productWrapper: {
     width: itemWidth,
