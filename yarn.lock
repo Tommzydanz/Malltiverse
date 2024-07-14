@@ -7740,11 +7740,6 @@ react-native-gesture-handler@~2.16.1:
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
-react-native-page-indicator@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/react-native-page-indicator/-/react-native-page-indicator-2.3.0.tgz#52001364a270824885696dd24ad1bd6138b351de"
-  integrity sha512-UaBQgM4tJLZ0GWK3189e1s2YSaM5YDHn5slXeWe9YcnvpGChZVswNFiHLYAaYySYUoKeiCaRjtITN9uVBOK8Kw==
-
 react-native-paper@^5.12.3:
   version "5.12.3"
   resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-5.12.3.tgz#d583119722ebbfbb7fe40400181d63748cca3683"
