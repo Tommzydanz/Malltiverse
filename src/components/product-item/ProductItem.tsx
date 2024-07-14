@@ -20,7 +20,7 @@ const itemWidth = (screenWidth - itemMargin * (itemsPerRow + 1)) / itemsPerRow;
 const ProductItem: ProductItemProps = ({ product, onAddToCart }) => {
   return (
     <View style={styles.container}>
-      <View style={[styles.imageWrapper, { backgroundColor: colors.gray500 }]}>
+      <View style={styles.imageWrapper}>
         <Image
           style={styles.image}
           source={{
@@ -53,12 +53,13 @@ const styles = StyleSheet.create({
   container: {
     width: itemWidth,
     borderRadius: 8,
-    padding: 8,
+    paddingRight: 13,
     minHeight: 347,
   },
   imageWrapper: {
     aspectRatio: 1,
     borderRadius: 5,
+    backgroundColor: colors.gray500,
     justifyContent: "center",
     alignItems: "center",
     overflow: "hidden",
