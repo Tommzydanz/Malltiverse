@@ -28,7 +28,7 @@ const ProductCategory: ProductCategoryProps = ({ products, addToCart }) => {
     const grouped: Record<string, Product[]> = {};
     const categoryOrder: string[] = [];
 
-    products.forEach((product) => {
+    products.forEach((product: Product) => {
       const categoryName = product.categories[0]?.name || "Uncategorized";
 
       if (!grouped[categoryName]) {
@@ -136,19 +136,16 @@ const styles = StyleSheet.create({
   },
   categoryContainer: {
     marginBottom: 67,
+    paddingHorizontal: 16,
   },
   categoryTitle: {
     fontSize: 20,
     fontFamily: "Montserrat_600SemiBold",
     marginVertical: 10,
-    paddingHorizontal: 10,
   },
   productWrapper: {
     width: itemWidth,
     marginRight: 10,
-  },
-  spacer: {
-    width: screenWidth - (itemWidth * 2 + 20),
   },
   emptyContainer: {
     flex: 1,
