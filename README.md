@@ -1,6 +1,6 @@
 # Malltiverse App
 
-Products Retail app uses Timbu.cloud api to fetch products and show relevant information of the products added.
+Malltiverse is an e-commerce app that integrates Timbu-cloud Api to fetch products
 
   <img src="assets/screenshots/productlist.png" alt="App Screenshot - Details" width="360"/>
   <img src="assets/screenshots/cart.png" alt="App Screenshot - Product" width="360"/>
