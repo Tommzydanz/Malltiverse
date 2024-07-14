@@ -53,7 +53,7 @@ const Cart: React.FC<CartProps> = ({
     <View style={styles.summaryContainer}>
       <ShoppingSummary
         subTotal={total}
-        onCheckout={() => handleCheckout()}
+        onCheckout={handleCheckout}
         onApplyDiscount={() => {}}
       />
     </View>
