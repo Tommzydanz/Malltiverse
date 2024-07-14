@@ -54,7 +54,7 @@ const Payment: React.FC<PaymentProps> = ({ navigation }) => {
               value={expiryDate}
               onChangeText={setExpiryDate}
               keyboardType="numeric"
-              maxLength={5}
+              maxLength={4}
             />
           </View>
           <View style={styles.halfWidth}>
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.whiteFade,
     borderWidth: 1,
     borderColor: colors.gray500,
-    color: colors.gray500,
+    color: colors.secondary,
     fontFamily: "Montserrat_400Regular",
     borderRadius: 5,
     padding: 10,
