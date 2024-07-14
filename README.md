@@ -2,15 +2,19 @@
 
 Products Retail app uses Timbu.cloud api to fetch products and show relevant information of the products added.
 
-  <img src="assets/screenshots/products.png" alt="App Screenshot - Product" width="360"/>
-  <img src="assets/screenshots/details.png" alt="App Screenshot - Details" width="360"/>
-  <img src="assets/screenshots/details.png" alt="App Screenshot - Details" width="360"/>
-  <img src="assets/screenshots/details.png" alt="App Screenshot - Details" width="360"/>
+  <img src="assets/screenshots/productlist.png" alt="App Screenshot - Details" width="360"/>
+  <img src="assets/screenshots/cart.png" alt="App Screenshot - Product" width="360"/>
+  <img src="assets/screenshots/checkout2.png" alt="App Screenshot - Details" width="360"/>
+  <img src="assets/screenshots/payment.png" alt="App Screenshot - Details" width="360"/>
+  <img src="assets/screenshots/paymentsuccess.png" alt="App Screenshot - Details" width="360"/>
 
 ## Features
 
-- fetch a list of products
-- Navigate to view product details
+- Fetch a list of products
+- Add to Cart
+- Checkout
+- Make Payment
+- Payment Success Display
 
 ## Demo
 
