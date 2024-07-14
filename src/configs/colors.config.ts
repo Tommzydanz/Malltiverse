@@ -7,6 +7,7 @@ const colors = {
   whiteFade: "#FAFAFA",
   black: "#000000",
   orange: "#FFC657",
+  gray400: "#BBBBBB",
   gray500: "#EDEDEDAB",
   gray600: "#757575",
   gray700: "#616161",
