@@ -72,10 +72,12 @@ const Products: React.FC<ProductsScreenProps> = ({ addToCart }) => {
 
   return (
     <ScrollView style={styles.container}>
-      <Image
-        source={require("../../../assets/big-banner.png")}
-        style={styles.banner}
-      />
+      <View style={styles.bannerContainer}>
+        <Image
+          source={require("../../../assets/big-banner.png")}
+          style={styles.banner}
+        />
+      </View>
       <ProductCategory products={products} addToCart={addToCart} />
     </ScrollView>
   );
@@ -85,7 +87,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.whiteFade,
-    padding: 22,
+  },
+  bannerContainer: {
+    paddingHorizontal: 22,
   },
   banner: {
     width: "100%",
