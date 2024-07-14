@@ -11,8 +11,11 @@ import { ProductItemProps } from "./interface";
 import colors from "../../configs/colors.config";
 import { StarRating } from "../star-rating/StarRating";
 
-const { width } = Dimensions.get("window");
-const cardWidth = width / 2 - 24;
+// const { width } = Dimensions.get("window");
+const { width: screenWidth } = Dimensions.get("window");
+const itemMargin = 0;
+const itemsPerRow = 2;
+const itemWidth = (screenWidth - itemMargin * (itemsPerRow + 1)) / itemsPerRow;
 
 const ProductItem: ProductItemProps = ({ product, onAddToCart }) => {
   return (
@@ -48,20 +51,19 @@ const ProductItem: ProductItemProps = ({ product, onAddToCart }) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 8,
+    width: itemWidth,
     borderRadius: 8,
-    marginRight: 20,
-    width: cardWidth,
+    padding: 8,
     minHeight: 347,
   },
   imageWrapper: {
-    width: "100%",
-    minHeight: 184,
+    aspectRatio: 1,
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
+    overflow: "hidden",
   },
-  image: { borderRadius: 8, width: "70%", aspectRatio: 1 },
+  image: { width: "70%", height: "70%" },
   name: {
     marginTop: 16,
     fontSize: 12,
