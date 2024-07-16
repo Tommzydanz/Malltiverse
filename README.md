@@ -18,7 +18,7 @@ Malltiverse is an e-commerce app that integrates Timbu-cloud Api to fetch produc
 
 ## Demo
 
-- Try out the app on Appetize.io: [Multiverse Demo]([https://appetize.io](https://appetize.io/app/b_4jnf46r6zld7m53ff273viikpe))
+- Try out the app on Appetize.io: [Multiverse Demo](https://appetize.io/app/b_4jnf46r6zld7m53ff273viikpe)
 
 - Download apk build: [MalltiverseApk](https://expo.dev/accounts/tommzydanz/projects/Malltiverse/builds/84e88d8e-32db-4ead-8650-9f10d35d6ab4) link expires in 13days
 
