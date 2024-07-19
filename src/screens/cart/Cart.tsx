@@ -4,22 +4,19 @@ import CartItem from "../../components/cart-item/CartItem";
 import { ICartItem } from "../../components/cart-item/interface";
 import colors from "../../configs/colors.config";
 import { ShoppingSummary } from "../../components/shopping-summary/ShoppingSummary";
+import { useCartStore } from "../../store/useCartStore";
+import { useNavigation } from "@react-navigation/native";
 
-interface CartProps {
-  cart: ICartItem[];
-  removeFromCart: (productId: string) => void;
-  updateCartItemQuantity: (productId: string, newQuantity: number) => void;
-  clearCart: () => void;
-  navigation: any;
-}
+const Cart: React.FC = () => {
+  const navigation = useNavigation<any>();
+  const cart = useCartStore((state) => state.cart);
+  const removeFromCart = useCartStore((state) => state.removeFromCart);
+  const updateCartItemQuantity = useCartStore(
+    (state) => state.updateCartItemQuantity,
+  );
+  const clearCart = useCartStore((state) => state.clearCart);
 
-const Cart: React.FC<CartProps> = ({
-  cart,
-  removeFromCart,
-  updateCartItemQuantity,
-  clearCart,
-  navigation,
-}) => {
+  // total price of items in a cart
   const total = useMemo(() => {
     if (!cart || cart.length === 0) {
       return 0;
@@ -37,8 +34,8 @@ const Cart: React.FC<CartProps> = ({
    * Clears the cart and navigates to the OrderSuccess screen
    */
   const handleCheckout = () => {
+    navigation.navigate("CheckoutMain");
     clearCart();
-    navigation.navigate("Checkout");
   };
 
   if (cart.length === 0) {
