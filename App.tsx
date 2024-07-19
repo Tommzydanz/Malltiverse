@@ -7,6 +7,10 @@ import {
   Montserrat_500Medium,
   Montserrat_600SemiBold,
 } from "@expo-google-fonts/montserrat";
+import {
+  Poppins_400Regular,
+  Poppins_600SemiBold,
+} from "@expo-google-fonts/poppins";
 import { StatusBar } from "expo-status-bar";
 import AppNavigationContainer from "./src/navigation/AppNavigationContainer";
 import colors from "./src/configs/colors.config";
@@ -18,6 +22,8 @@ export default function App() {
     Montserrat_400Regular,
     Montserrat_500Medium,
     Montserrat_600SemiBold,
+    Poppins_400Regular,
+    Poppins_600SemiBold,
   });
 
   useEffect(() => {
