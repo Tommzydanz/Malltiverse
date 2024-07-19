@@ -998,6 +998,11 @@
   resolved "https://registry.yarnpkg.com/@expo-google-fonts/montserrat/-/montserrat-0.2.3.tgz#e22b337ee6bd2007126b466ddd18f9de59eb3fc6"
   integrity sha512-9imhwIs6j5uyTkTxoNplC5T8ERES1W98ZgF7kf7OaypnbcoLoIW0wKH6oudecZyiEqoSktC7epkRpj+UEUvzWg==
 
+"@expo-google-fonts/poppins@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/poppins/-/poppins-0.2.3.tgz#807fc1bf58948c32ddfb9c67f7329ff16cc78d14"
+  integrity sha512-PXkur1ZY/puy1PwVFYPJx8qiI3dtBzC2ig1bo53swCt7/sI7krCGYRO6hLBNp15M0kcNh2J4cCR9ZQyFxsving==
+
 "@expo/apple-utils@1.7.0":
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/@expo/apple-utils/-/apple-utils-1.7.0.tgz#b8ac565f37b077c3a1bb562b8db5c5864bd6aba7"
@@ -2130,6 +2135,11 @@
     prompts "^2.4.2"
     semver "^7.5.2"
 
+"@react-native-community/netinfo@^11.3.2":
+  version "11.3.2"
+  resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-11.3.2.tgz#e63201d0b87ad42d086d1003be48ae7b327f0594"
+  integrity sha512-YsaS3Dutnzqd1BEoeC+DEcuNJedYRkN6Ef3kftT5Sm8ExnCF94C/nl4laNxuvFli3+Jz8Df3jO25Jn8A9S0h4w==
+
 "@react-native/assets-registry@0.74.85":
   version "0.74.85"
   resolved "https://registry.yarnpkg.com/@react-native/assets-registry/-/assets-registry-0.74.85.tgz#ae903c0c25f4d6a751d53d63245d5612c81edd98"
@@ -2314,6 +2324,14 @@
   version "1.3.30"
   resolved "https://registry.yarnpkg.com/@react-navigation/elements/-/elements-1.3.30.tgz#a81371f599af1070b12014f05d6c09b1a611fd9a"
   integrity sha512-plhc8UvCZs0UkV+sI+3bisIyn78wz9O/BiWZXpounu72k/R/Sj5PuZYFJ1fi6psvriUveMCGh4LeZckAZu2qiQ==
+
+"@react-navigation/material-top-tabs@^6.6.14":
+  version "6.6.14"
+  resolved "https://registry.yarnpkg.com/@react-navigation/material-top-tabs/-/material-top-tabs-6.6.14.tgz#48877ba5e1038d089439fede39ac5aab99c13c28"
+  integrity sha512-kfNQt3BInQusEc8A+PDWaKmRQNaCrSqngcOQwUe1uNizJdZJEFdfaInivtBFW2LcQqtzgIHK/am2TgK0Pos6og==
+  dependencies:
+    color "^4.2.3"
+    warn-once "^0.1.0"
 
 "@react-navigation/native@^6.1.17":
   version "6.1.17"
@@ -4793,6 +4811,11 @@ expo-modules-core@1.12.19:
   integrity sha512-fFsErN4oMsOdStUVYvyLpl6MX/wbD9yJSqy/Lu7ZRLIPzeKDfGS2jNl8RzryPznRpWmy49X8l40R4osRJLizhg==
   dependencies:
     invariant "^2.2.4"
+
+expo-secure-store@~13.0.2:
+  version "13.0.2"
+  resolved "https://registry.yarnpkg.com/expo-secure-store/-/expo-secure-store-13.0.2.tgz#ba8f6076fc38062a28bb2ce5edab9cd28ef88598"
+  integrity sha512-3QYgoneo8p8yeeBPBiAfokNNc2xq6+n8+Ob4fAlErEcf4H7Y72LH+K/dx0nQyWau2ZKZUXBxyyfuHFyVKrEVLg==
 
 expo-splash-screen@^0.27.5:
   version "0.27.5"
@@ -7740,6 +7763,11 @@ react-native-gesture-handler@~2.16.1:
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
+react-native-pager-view@6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-6.3.0.tgz#7e734e84b1692f877591335373f6fd92f0d67aa6"
+  integrity sha512-ufJOoVa9pFL1J/yb4hpsCqp8n1qTlcF5VvwqvCacHX//D7hSeRscsiIXg1u1pXNWwllvACb+mqxec/3Uj2mxrA==
+
 react-native-paper@^5.12.3:
   version "5.12.3"
   resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-5.12.3.tgz#d583119722ebbfbb7fe40400181d63748cca3683"
@@ -7793,6 +7821,13 @@ react-native-svg@15.2.0:
   dependencies:
     css-select "^5.1.0"
     css-tree "^1.1.3"
+
+react-native-tab-view@^3.5.2:
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-3.5.2.tgz#2789b8af6148b16835869566bf13dc3b0e6c1b46"
+  integrity sha512-nE5WqjbeEPsWQx4mtz81QGVvgHRhujTNIIZiMCx3Bj6CBFDafbk7XZp9ocmtzXUQaZ4bhtVS43R4FIiR4LboJw==
+  dependencies:
+    use-latest-callback "^0.1.5"
 
 react-native@0.74.3:
   version "0.74.3"
@@ -9177,6 +9212,11 @@ use-latest-callback@^0.1.9:
   resolved "https://registry.yarnpkg.com/use-latest-callback/-/use-latest-callback-0.1.9.tgz#10191dc54257e65a8e52322127643a8940271e2a"
   integrity sha512-CL/29uS74AwreI/f2oz2hLTW7ZqVeV5+gxFeGudzQrgkCytrHw33G4KbnQOrRlAEzzAFXi7dDLMC9zhWcVpzmw==
 
+use-sync-external-store@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
+  integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
+
 util-deprecate@^1.0.1, util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
@@ -9566,3 +9606,10 @@ zod@^3.22.4, zod@^3.23.8:
   version "3.23.8"
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.23.8.tgz#e37b957b5d52079769fb8097099b592f0ef4067d"
   integrity sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==
+
+zustand@^4.5.4:
+  version "4.5.4"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-4.5.4.tgz#63abdd81edfb190bc61e0bbae045cc4d52158a05"
+  integrity sha512-/BPMyLKJPtFEvVL0E9E9BTUM63MNyhPGlvxk1XjrfWTUlV+BR8jufjsovHzrtR6YNcBEcL7cMHovL1n9xHawEg==
+  dependencies:
+    use-sync-external-store "1.2.0"
