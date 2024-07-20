@@ -6,63 +6,138 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
+import NetInfo from "@react-native-community/netinfo";
 import { Ionicons } from "@expo/vector-icons";
 import colors from "../../configs/colors.config";
 import ProductCategory from "../../components/product-category/ProductCategory";
-import { Loader } from "../../components/Loader/Loader";
 import { getProductsWithRatings, Product } from "../../api/products";
+import { useCartStore } from "../../store/useCartStore";
+import {
+  Fade,
+  Placeholder,
+  PlaceholderLine,
+  PlaceholderMedia,
+} from "rn-placeholder";
 
-interface ProductsScreenProps {
-  addToCart: (product: Product) => void;
-}
+const { width } = Dimensions.get("window");
+const productWidth = (width - 66) / 2;
 
-const Products: React.FC<ProductsScreenProps> = ({ addToCart }) => {
+const Products: React.FC = () => {
   const [products, setProducts] = useState<Product[] | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isConnected, setIsConnected] = useState<boolean | null>(true);
+  const addToCart = useCartStore((state) => state.addToCart);
 
-  /**
-   * Fetches the products from the server.
-   */
+  const checkNetworkConnection = useCallback(async () => {
+    const state = await NetInfo.fetch();
+    setIsConnected(state.isConnected);
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      setIsConnected(state.isConnected);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   const fetchProducts = useCallback(async () => {
+    if (!isConnected) {
+      setError("Network unavailable. Please check your connection.");
+      return;
+    }
+
     setIsLoading(true);
+    setError(null);
+
     try {
       const result = await getProductsWithRatings();
       if (result && result.items) {
         setProducts(result.items);
       } else {
-        setError("Failed to fetch products");
+        setError("Failed to fetch products. Please try again.");
       }
     } catch (err) {
-      setError("An error occurred while fetching products");
+      if (err.message === "Network request failed") {
+        setError("Network error. Please check your connection and try again.");
+      } else {
+        setError("An unexpected error occurred. Please try again later.");
+      }
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
-  }, []);
+  }, [isConnected]);
 
-  // Fetch products on component mount
   useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
+    checkNetworkConnection();
+    if (isConnected) {
+      fetchProducts();
+    }
+  }, [checkNetworkConnection, fetchProducts, isConnected]);
 
-  // Render loading state
-  if (isLoading) {
+  if (!isConnected) {
     return (
       <View style={styles.otherContainer}>
-        <Loader size={"large"} color={colors.primary} />
-        <Text style={{ fontFamily: "Montserrat_500Medium" }}>
-          Fetching Products...
-        </Text>
+        <Ionicons
+          name="cloud-offline-outline"
+          size={40}
+          color={colors.danger}
+        />
+        <Text style={styles.errorText}>Network unavailable</Text>
+        <TouchableOpacity
+          style={styles.tryAgainButton}
+          onPress={checkNetworkConnection}
+        >
+          <Text style={styles.tryAgainButtonText}>Try Again</Text>
+        </TouchableOpacity>
       </View>
     );
   }
 
-  // Render error state
+  const renderSkeletonLoading = () => (
+    <View style={styles.container}>
+      <View style={styles.bannerContainer}>
+        <Placeholder Animation={Fade}>
+          <PlaceholderMedia style={styles.bannerSkeleton} />
+        </Placeholder>
+      </View>
+      <View style={styles.categoryContainer}>
+        <Placeholder Animation={Fade}>
+          <PlaceholderLine width={30} />
+        </Placeholder>
+        <View style={styles.productsContainer}>
+          {[...Array(4)].map((_, index) => (
+            <View key={index} style={styles.productSkeleton}>
+              <Placeholder Animation={Fade}>
+                <PlaceholderMedia style={styles.productImageSkeleton} />
+                <PlaceholderLine width={80} />
+                <PlaceholderLine width={60} />
+                <PlaceholderLine width={40} />
+                <PlaceholderLine
+                  width={80}
+                  height={30}
+                  style={styles.addToCartSkeleton}
+                />
+              </Placeholder>
+            </View>
+          ))}
+        </View>
+      </View>
+    </View>
+  );
+
+  if (isLoading) {
+    return <ScrollView>{renderSkeletonLoading()}</ScrollView>;
+  }
+
   if (error) {
     return (
       <View style={styles.otherContainer}>
         <Ionicons name="alert-circle-outline" size={40} color={colors.danger} />
-        <Text style={styles.tryAgainButtonText}>Error: {error}</Text>
+        <Text style={styles.errorText}>{error}</Text>
         <TouchableOpacity style={styles.tryAgainButton} onPress={fetchProducts}>
           <Text style={styles.tryAgainButtonText}>Try Again</Text>
         </TouchableOpacity>
@@ -110,6 +185,41 @@ const styles = StyleSheet.create({
   tryAgainButtonText: {
     color: colors.secondary,
     fontFamily: "Montserrat_500Medium",
+  },
+  errorText: {
+    color: colors.danger,
+    fontFamily: "Montserrat_500Medium",
+    marginBottom: 10,
+    textAlign: "center",
+    paddingHorizontal: 20,
+  },
+  categoryContainer: {
+    paddingHorizontal: 22,
+    marginTop: 20,
+  },
+  productsContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+  },
+  productSkeleton: {
+    width: productWidth,
+    marginBottom: 20,
+  },
+  bannerSkeleton: {
+    width: "100%",
+    height: 250,
+    borderRadius: 10,
+  },
+  productImageSkeleton: {
+    width: productWidth,
+    height: productWidth,
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  addToCartSkeleton: {
+    marginTop: 10,
+    borderRadius: 5,
   },
 });
 
