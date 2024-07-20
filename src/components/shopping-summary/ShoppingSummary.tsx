@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useMemo } from "react";
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import colors from "../../configs/colors.config";
 import { Dash } from "../../../assets/svg";
+import { useForm, Controller } from "react-hook-form";
 
 const { width } = Dimensions.get("window");
 const scale = width / 375;
@@ -17,7 +18,8 @@ const scale = width / 375;
 const normalize = (size: number) => Math.round(size * scale);
 
 const DELIVERY_FEE = 1500;
-const DISCOUNT_AMOUNT = 3500;
+const FIXED_DISCOUNT_CODE = "SAVE10";
+const FIXED_DISCOUNT_AMOUNT = 3500;
 
 interface ShoppingSummaryProps {
   subTotal: number;
@@ -30,15 +32,36 @@ export const ShoppingSummary: React.FC<ShoppingSummaryProps> = ({
   onApplyDiscount,
   onCheckout,
 }) => {
-  const [discountCode, setDiscountCode] = useState("");
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm({
+    defaultValues: {
+      discountCode: "",
+    },
+  });
 
-  const handleApplyDiscount = () => {
-    onApplyDiscount(discountCode);
+  const [appliedDiscount, setAppliedDiscount] = React.useState(0);
+
+  const handleApplyDiscount = (data: { discountCode: string }) => {
+    if (data.discountCode === FIXED_DISCOUNT_CODE) {
+      setAppliedDiscount(FIXED_DISCOUNT_AMOUNT);
+      onApplyDiscount(data.discountCode);
+    } else {
+      setAppliedDiscount(0);
+      onApplyDiscount("");
+      setError("discountCode", {
+        type: "manual",
+        message: "Invalid discount code",
+      });
+    }
   };
 
   const totalAmount = useMemo(() => {
-    return subTotal + DELIVERY_FEE - DISCOUNT_AMOUNT;
-  }, [subTotal]);
+    return subTotal + DELIVERY_FEE - appliedDiscount;
+  }, [subTotal, appliedDiscount]);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -48,18 +71,32 @@ export const ShoppingSummary: React.FC<ShoppingSummaryProps> = ({
         <View style={styles.discountSection}>
           <Text style={styles.label}>Discount Code</Text>
           <View style={styles.discountInputContainer}>
-            <TextInput
-              style={styles.discountInput}
-              value={discountCode}
-              onChangeText={setDiscountCode}
+            <Controller
+              control={control}
+              rules={{
+                required: "Discount code is required",
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  style={styles.discountInput}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  placeholder="Enter discount code"
+                />
+              )}
+              name="discountCode"
             />
             <TouchableOpacity
               style={styles.applyButton}
-              onPress={handleApplyDiscount}
+              onPress={handleSubmit(handleApplyDiscount)}
             >
               <Text style={styles.applyButtonText}>Apply</Text>
             </TouchableOpacity>
           </View>
+          {errors.discountCode && (
+            <Text style={styles.errorText}>{errors.discountCode.message}</Text>
+          )}
         </View>
 
         <View style={styles.summaryItem}>
@@ -77,14 +114,15 @@ export const ShoppingSummary: React.FC<ShoppingSummaryProps> = ({
         <View style={styles.summaryItem}>
           <Text style={styles.summaryLabel}>Discount Amount</Text>
           <Text style={styles.summaryValue}>
-            N {DISCOUNT_AMOUNT.toLocaleString()}
+            N {appliedDiscount.toLocaleString()}
           </Text>
         </View>
 
         <Dash
-          width={346}
+          width="100%"
           style={{
             alignSelf: "center",
+            flex: 1,
           }}
         />
 
@@ -190,5 +228,11 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     fontFamily: "Montserrat_500Medium",
     fontSize: normalize(12),
+  },
+  errorText: {
+    color: colors.danger,
+    fontSize: normalize(12),
+    marginTop: 5,
+    fontFamily: "Montserrat_400Regular",
   },
 });
