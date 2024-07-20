@@ -1,9 +1,15 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+  ToastAndroid,
+} from "react-native";
 import { CartItemProps } from "./interface";
 import colors from "../../configs/colors.config";
+import { Trash } from "../../../assets/svg";
 
 const CartItem: CartItemProps = ({
   cart,
@@ -61,14 +67,16 @@ const CartItem: CartItemProps = ({
       </View>
       <View style={styles.rightContainer}>
         <TouchableOpacity
-          onPress={() => onRemoveFromCart(cart.id)}
+          onPress={() => {
+            onRemoveFromCart(cart.id);
+            ToastAndroid.show(
+              cart.name + " removed from cart successfully",
+              ToastAndroid.SHORT,
+            );
+          }}
           style={styles.removeButton}
         >
-          <Ionicons
-            name="trash-outline"
-            size={18}
-            color={colors.secondaryFade}
-          />
+          <Trash />
         </TouchableOpacity>
         <Text style={styles.price}>
           N{" "}
