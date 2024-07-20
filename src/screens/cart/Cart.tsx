@@ -35,7 +35,6 @@ const Cart: React.FC = () => {
    */
   const handleCheckout = () => {
     navigation.navigate("CheckoutMain");
-    clearCart();
   };
 
   if (cart.length === 0) {
