@@ -14,10 +14,12 @@ import { Product } from "../../api/products";
 import PageIndicator from "../page-indicator/PageIndicator";
 
 const screenWidth = Dimensions.get("window").width;
-const itemMargin = 7;
+const containerPadding = 22 * 2;
+const itemMargin = 13;
 const itemsPerPage = 2;
-const itemWidth =
-  (screenWidth - itemMargin * (itemsPerPage + 1)) / itemsPerPage;
+const pageWidth = screenWidth - containerPadding;
+const itemWidth = (pageWidth - itemMargin) / itemsPerPage;
+
 const ProductCategory: ProductCategoryProps = ({ products, addToCart }) => {
   const [currentPages, setCurrentPages] = useState<Record<string, number>>({});
   const flatListRefs = useRef<Record<string, FlatList | null>>({});
@@ -50,73 +52,71 @@ const ProductCategory: ProductCategoryProps = ({ products, addToCart }) => {
     );
   }
 
-  const handleScroll = (
-    event: any,
-    category: string,
-    categoryProducts: Product[],
-  ) => {
+  const handleScroll = (event: any, category: string) => {
     const offsetX = event.nativeEvent.contentOffset.x;
-    const page = Math.round(offsetX / screenWidth);
+    const page = Math.round(offsetX / pageWidth);
     setCurrentPages((prevPages) => ({
       ...prevPages,
       [category]: page,
     }));
-    // Prevent extra dragging at the last page
-    const totalItems = categoryProducts.length;
-    const maxOffset = (Math.ceil(totalItems / itemsPerPage) - 1) * screenWidth;
-    if (offsetX > maxOffset) {
-      flatListRefs.current[category]?.scrollToOffset({
-        offset: maxOffset,
-        animated: true,
-      });
-    }
   };
 
   const renderCategory = ([category, categoryProducts]: [
     string,
     Product[],
-  ]) => (
-    <View key={category} style={styles.categoryContainer}>
-      <Text style={styles.categoryTitle}>
-        {category
-          .split(/[\s_]+/) // Split by space or underscore
-          .map(
-            (word) =>
-              word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
-          )
-          .join(" ")}
-      </Text>
-      <FlatList
-        ref={(ref) => (flatListRefs.current[category] = ref)}
-        data={categoryProducts}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        onScroll={(event) => handleScroll(event, category, categoryProducts)}
-        renderItem={({ item, index }) => (
-          <View style={styles.productWrapper}>
-            <ProductItem product={item} onAddToCart={addToCart} />
-          </View>
-        )}
-        keyExtractor={(item) => item.id}
-        snapToInterval={screenWidth}
-        decelerationRate="fast"
-        getItemLayout={(data, index) => ({
-          length: screenWidth,
-          offset: screenWidth * index,
-          index,
-        })}
-      />
-      <PageIndicator
-        count={Math.ceil(categoryProducts.length / 2)}
-        current={currentPages[category] || 0}
-        size={12}
-        style={styles.pageIndicator}
-        activeColor={colors.primary}
-        inactiveColor={colors.gray400}
-      />
-    </View>
-  );
+  ]) => {
+    const pageCount = Math.ceil(categoryProducts.length / itemsPerPage);
+
+    return (
+      <View key={category} style={styles.categoryContainer}>
+        <Text style={styles.categoryTitle}>
+          {category
+            .split(/[\s_]+/) // Split by space or underscore
+            .map(
+              (word) =>
+                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
+            )
+            .join(" ")}
+        </Text>
+        <FlatList
+          ref={(ref) => (flatListRefs.current[category] = ref)}
+          data={categoryProducts}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          onScroll={(event) => handleScroll(event, category)}
+          renderItem={({ item, index }) => (
+            <View
+              style={[
+                styles.productWrapper,
+                index % 2 === 0 && { marginRight: itemMargin },
+                index === categoryProducts.length - 1 &&
+                  categoryProducts.length % 2 !== 0 && { width: pageWidth },
+              ]}
+            >
+              <ProductItem product={item} onAddToCart={addToCart} />
+            </View>
+          )}
+          keyExtractor={(item) => item.id}
+          snapToInterval={pageWidth}
+          decelerationRate="fast"
+          getItemLayout={(data, index) => ({
+            length: pageWidth,
+            offset: pageWidth * Math.floor(index / itemsPerPage),
+            index,
+          })}
+        />
+        <PageIndicator
+          count={pageCount}
+          current={currentPages[category] || 0}
+          size={12}
+          style={styles.pageIndicator}
+          activeColor={colors.primary}
+          inactiveColor={colors.gray400}
+        />
+      </View>
+    );
+  };
 
   return (
     <ScrollView
@@ -133,10 +133,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 44,
+    paddingHorizontal: 22,
   },
   categoryContainer: {
     marginBottom: 67,
-    paddingHorizontal: 16,
   },
   categoryTitle: {
     fontSize: 20,
@@ -145,7 +145,6 @@ const styles = StyleSheet.create({
   },
   productWrapper: {
     width: itemWidth,
-    marginRight: 10,
   },
   emptyContainer: {
     flex: 1,
@@ -154,7 +153,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   pageIndicator: {
-    marginTop: 10,
+    marginTop: 38,
     alignSelf: "center",
   },
   scrollViewContent: {
