@@ -44,7 +44,6 @@ const CreditCardSVG: React.FC<{
       y={cardHeight * 0.55}
       fill="white"
       fontSize={cardHeight * 0.092}
-      fontFamily="Poppins_600SemiBold"
     >
       {cardNumber || "5047 1245 7689 2345"}
     </Text>
@@ -53,7 +52,6 @@ const CreditCardSVG: React.FC<{
       y={cardHeight * 0.75}
       fill="#cccccc"
       fontSize={cardHeight * 0.064}
-      fontFamily="Poppins_400Regular"
     >
       Card holder name
     </Text>
