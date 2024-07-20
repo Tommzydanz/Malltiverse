@@ -1,72 +1,28 @@
-import { StyleSheet, Image } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import Products from "../screens/product-screen/Products";
+import { StyleSheet, Image, TouchableOpacity, View } from "react-native";
+import {
+  getFocusedRouteNameFromRoute,
+  NavigationContainer,
+} from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import React, { useCallback, useMemo, useState } from "react";
+import React from "react";
+import { FontAwesome6 } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import colors from "../configs/colors.config";
-import { CartIcon, CheckoutIcon, Home } from "../../assets/svg";
+import { CartIcon, CheckoutIcon, History, Home } from "../../assets/svg";
 import Cart from "../screens/cart/Cart";
-import { ICartItem } from "../components/cart-item/interface";
 import CheckoutStack from "./CheckoutStack";
-import { Product } from "../api/products";
+import { selectCartItemsCount, useCartStore } from "../store/useCartStore";
+import ProductStack from "./ProductStack";
 
 const Tab = createBottomTabNavigator();
 
 const AppNavigationContainer: React.FC = function AppNavigationContainer() {
-  // State to hold the current items in the cart
-  const [cart, setCart] = useState<ICartItem[]>([]);
-
-  /**
-   * Adds a product to the cart or increments its quantity if already present
-   * @param product The product to be added to the cart
-   */
-  const addToCart = useCallback((product: Product) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.id === product.id);
-      if (existingItem) {
-        return prevCart.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item,
-        );
-      }
-      return [...prevCart, { ...product, quantity: 1 }];
-    });
-  }, []);
-
-  const updateCartItemQuantity = useCallback(
-    (productId: string, newQuantity: number) => {
-      setCart((prevCart) =>
-        prevCart.map((item) =>
-          item.id === productId ? { ...item, quantity: newQuantity } : item,
-        ),
-      );
-    },
-    [],
-  );
-
-  const removeFromCart = (productId: string) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
-  };
-
-  /**
-   * Clears all items from the cart
-   */
-  const clearCart = useCallback(() => {
-    setCart([]);
-  }, []);
-
-  /**
-   * Clears all items from the cart
-   */
-  const cartItemsCount = useMemo(() => {
-    return cart.reduce((sum, item) => sum + item.quantity, 0);
-  }, [cart]);
+  const cartItemsCount = useCartStore(selectCartItemsCount);
 
   return (
     <NavigationContainer>
       <Tab.Navigator
-        screenOptions={{
+        screenOptions={({ navigation, route }) => ({
           headerTitleAlign: "center",
           headerTitleStyle: {
             fontFamily: "Montserrat_600SemiBold",
@@ -77,13 +33,45 @@ const AppNavigationContainer: React.FC = function AppNavigationContainer() {
           headerBackgroundContainerStyle: {
             backgroundColor: colors.whiteFade,
           },
-          headerLeft: () => (
-            <Image
-              source={require("../../assets/malltiverse-logo.png")}
-              style={{ flex: 1, marginLeft: 24 }}
-              resizeMode={"contain"}
-            />
-          ),
+          headerLeft: () => {
+            const routeName = getFocusedRouteNameFromRoute(route) ?? "";
+            if (routeName === "OrdersHistory") {
+              return (
+                <TouchableOpacity
+                  style={{ marginLeft: 16 }}
+                  onPress={() => navigation.goBack()}
+                >
+                  <FontAwesome6
+                    name="arrow-left-long"
+                    size={24}
+                    color="black"
+                  />
+                </TouchableOpacity>
+              );
+            }
+            if (routeName === "OrderDetails") {
+              return (
+                <TouchableOpacity
+                  style={{ marginLeft: 16 }}
+                  onPress={() => navigation.goBack()}
+                >
+                  <FontAwesome6
+                    name="arrow-left-long"
+                    size={24}
+                    color="black"
+                  />
+                </TouchableOpacity>
+              );
+            }
+            return (
+              <Image
+                source={require("../../assets/malltiverse-logo.png")}
+                style={{ flex: 1, marginLeft: 24 }}
+                resizeMode={"contain"}
+              />
+            );
+          },
+
           tabBarActiveTintColor: colors.secondary,
           tabBarInactiveTintColor: colors.whiteFade,
           tabBarActiveBackgroundColor: colors.primary,
@@ -103,39 +91,75 @@ const AppNavigationContainer: React.FC = function AppNavigationContainer() {
           },
           tabBarItemStyle: {
             borderRadius: 34,
-            marginHorizontal: 42,
+            marginHorizontal: 45,
             height: 35,
           },
           tabBarShowLabel: false,
-        }}
+        })}
       >
         <Tab.Screen
           name="Products"
-          options={{
-            headerTitle: "Product List",
-            tabBarIcon: ({ color }) => <Home color={color} fill={color} />,
+          component={ProductStack}
+          options={({ navigation, route }) => {
+            const routeName =
+              getFocusedRouteNameFromRoute(route) || "ProductList";
+
+            return {
+              headerTitle:
+                routeName === "OrdersHistory"
+                  ? "My Orders"
+                  : routeName === "OrderDetails"
+                    ? "Order Details"
+                    : routeName === "Wishlist"
+                      ? "Saved Items"
+                      : "Product List",
+              tabBarIcon: ({ color }) => <Home color={color} fill={color} />,
+              headerRight: () => {
+                if (routeName === "ProductList") {
+                  return (
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        marginRight: 16,
+                        marginTop: 14,
+                      }}
+                    >
+                      <TouchableOpacity
+                        style={{ marginRight: 16 }}
+                        onPress={() => navigation.navigate("Wishlist")}
+                      >
+                        <MaterialIcons
+                          name="favorite-border"
+                          size={24}
+                          color="black"
+                        />
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => navigation.navigate("OrdersHistory")}
+                      >
+                        <History width={36} height={36} />
+                      </TouchableOpacity>
+                    </View>
+                  );
+                }
+                return null;
+              },
+            };
           }}
-        >
-          {(props) => <Products {...props} addToCart={addToCart} />}
-        </Tab.Screen>
+        />
         <Tab.Screen
           name="Cart"
+          component={Cart}
           options={{
             headerTitle: "My Cart",
             tabBarIcon: ({ color }) => <CartIcon color={color} />,
             tabBarBadge: cartItemsCount > 0 ? cartItemsCount : undefined,
+            tabBarBadgeStyle: {
+              backgroundColor: colors.primary,
+              color: "white",
+            },
           }}
-        >
-          {(props) => (
-            <Cart
-              {...props}
-              cart={cart}
-              removeFromCart={removeFromCart}
-              updateCartItemQuantity={updateCartItemQuantity}
-              clearCart={clearCart}
-            />
-          )}
-        </Tab.Screen>
+        />
         <Tab.Screen
           name="CheckoutMain"
           component={CheckoutStack}
@@ -150,22 +174,3 @@ const AppNavigationContainer: React.FC = function AppNavigationContainer() {
 };
 
 export default AppNavigationContainer;
-
-const styles = StyleSheet.create({
-  badge: {
-    position: "absolute",
-    right: 9,
-    top: -1,
-    backgroundColor: "orange",
-    borderRadius: 8,
-    width: 16,
-    height: 16,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  badgeText: {
-    color: "white",
-    fontSize: 10,
-    fontWeight: "bold",
-  },
-});
