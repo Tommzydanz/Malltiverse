@@ -14,6 +14,7 @@ import {
 import { StatusBar } from "expo-status-bar";
 import AppNavigationContainer from "./src/navigation/AppNavigationContainer";
 import colors from "./src/configs/colors.config";
+import useOrderStore from "./src/store/useOrderStore";
 
 export default function App() {
   SplashScreen.preventAutoHideAsync();
@@ -25,6 +26,18 @@ export default function App() {
     Poppins_400Regular,
     Poppins_600SemiBold,
   });
+  const loadOrders = useOrderStore((state) => state.loadOrders);
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        await loadOrders();
+      } catch (error) {
+        console.error("Failed to load orders:", error);
+      }
+    };
+    init();
+  }, [loadOrders]);
 
   useEffect(() => {
     if (fontsLoaded) {
