@@ -1,6 +1,6 @@
 # Malltiverse App
 
-Malltiverse is an e-commerce app that integrates Timbu-cloud Api to fetch products
+Malltiverse is an e-commerce app that integrates Timbu-cloud Api to fetch products, comes with new fixes and feature
 
   <img src="assets/screenshots/productlist.png" alt="App Screenshot - Details" width="360"/>
   <img src="assets/screenshots/cart.png" alt="App Screenshot - Product" width="360"/>
@@ -11,8 +11,11 @@ Malltiverse is an e-commerce app that integrates Timbu-cloud Api to fetch produc
 ## Features
 
 - Fetch a list of products
+- Add to wishlist
+- Remove from wishlist
 - Add to Cart
 - Checkout
+- My Order history
 - Make Payment
 - Payment Success Display
 
